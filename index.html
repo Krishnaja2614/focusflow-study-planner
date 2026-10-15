@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7fb">
+  <title>FocusFlow — Study Planner</title>
+  <meta name="description" content="A calm, practical study planner to organize tasks, deadlines, and progress.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="FocusFlow home">
+        <span class="brand-mark">✦</span><span>focusflow</span>
+      </a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-link active" data-filter="all"><span>▦</span> Overview</button>
+        <button class="nav-link" data-filter="today"><span>◷</span> Today <span class="nav-count" id="todayCount">0</span></button>
+        <button class="nav-link" data-filter="upcoming"><span>▣</span> Upcoming</button>
+        <button class="nav-link" data-filter="completed"><span>✓</span> Completed</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="tip-card">
+          <div class="tip-icon">☼</div>
+          <strong>Small steps count.</strong>
+          <p>Focus on making progress, not on being perfect.</p>
+        </div>
+        <div class="storage-note"><span class="status-dot"></span> Saved on this device</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow" id="todayLabel">YOUR STUDY SPACE</div>
+          <h1 id="greeting">Make today count.</h1>
+          <p class="subtitle">A little progress every day adds up.</p>
+        </div>
+        <button class="primary-btn" id="openAdd"><span>＋</span> Add task</button>
+      </header>
+
+      <section class="stats-grid" aria-label="Study statistics">
+        <article class="stat-card stat-main">
+          <div class="stat-top"><span class="stat-label">Overall progress</span><span class="stat-icon purple">↗</span></div>
+          <div class="stat-value-row"><strong id="progressPercent">0%</strong><span class="muted" id="progressCaption">Let's get started</span></div>
+          <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+          <div class="stat-foot"><span id="completedTotal">0 completed</span><span id="taskTotal">0 total tasks</span></div>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span class="stat-label">Due today</span><span class="stat-icon peach">◷</span></div>
+          <strong class="stat-number" id="dueToday">0</strong>
+          <span class="stat-hint">Tasks to focus on today</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-top"><span class="stat-label">Overdue</span><span class="stat-icon rose">!</span></div>
+          <strong class="stat-number" id="overdue">0</strong>
+          <span class="stat-hint">Worth checking in on</span>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <div class="tasks-panel panel">
+          <div class="panel-heading">
+            <div><h2 id="listTitle">Your tasks</h2><p id="listSubtitle">Keep your next steps clear and manageable.</p></div>
+            <label class="filter-wrap"><span class="sr-only">Filter tasks by subject</span>
+              <select id="subjectFilter"><option value="all">All subjects</option></select>
+            </label>
+          </div>
+          <div class="task-list" id="taskList"></div>
+          <div class="empty-state" id="emptyState">
+            <div class="empty-illustration">✧</div>
+            <h3>Nothing on your list yet</h3>
+            <p>Add your first task and give your next study session a plan.</p>
+            <button class="secondary-btn" id="emptyAdd">＋ Create a task</button>
+          </div>
+        </div>
+
+        <aside class="right-column">
+          <section class="panel week-panel">
+            <div class="panel-heading compact"><div><h2>Weekly rhythm</h2><p>Your completed tasks this week</p></div></div>
+            <div class="week-chart" id="weekChart"></div>
+            <div class="chart-legend"><span class="legend-dot"></span> Tasks completed</div>
+          </section>
+          <section class="panel focus-panel">
+            <div class="focus-art">✦</div>
+            <div class="eyebrow">A GENTLE REMINDER</div>
+            <h2>One thing at a time.</h2>
+            <p>You don't need to finish everything today. Just choose the next useful step.</p>
+          </section>
+        </aside>
+      </section>
+      <footer>FocusFlow <span>·</span> Your plans stay in this browser on this device.</footer>
+    </main>
+  </div>
+
+  <dialog id="taskDialog" class="task-dialog">
+    <form id="taskForm">
+      <div class="dialog-heading"><div><div class="eyebrow">YOUR NEXT STEP</div><h2 id="dialogTitle">Create a task</h2></div><button type="button" class="icon-btn" id="closeDialog" aria-label="Close">×</button></div>
+      <input type="hidden" id="taskId">
+      <label class="field-label" for="taskName">Task name</label>
+      <input class="field" id="taskName" maxlength="100" placeholder="e.g. Revise VPC and subnets" required>
+      <div class="form-row">
+        <div><label class="field-label" for="taskSubject">Subject</label>
+          <input class="field" id="taskSubject" maxlength="40" placeholder="e.g. AWS Fundamentals" required>
+        </div>
+        <div><label class="field-label" for="taskDate">Deadline</label><input class="field" id="taskDate" type="date" required></div>
+      </div>
+      <label class="field-label" for="taskPriority">Priority</label>
+      <select class="field" id="taskPriority"><option value="medium">Medium</option><option value="high">High</option><option value="low">Low</option></select>
+      <label class="field-label" for="taskNotes">Notes <span class="optional">(optional)</span></label>
+      <textarea class="field notes-field" id="taskNotes" rows="3" maxlength="300" placeholder="What do you want to remember?"></textarea>
+      <div class="dialog-actions"><button type="button" class="secondary-btn" id="cancelDialog">Cancel</button><button type="submit" class="primary-btn">Save task</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
